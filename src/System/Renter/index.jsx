@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import RenterLayout from "./components/RenterLayout";
 import Search from "antd/es/input/Search";
 import {  Button} from "antd";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/Auth";
 
 const team = [
   {
@@ -51,11 +52,27 @@ const team = [
 
 
 const Renter = () => {
+    const [auth, setAuth] = useContext(AuthContext);
     const route = useNavigate();
   const onSearch = (value, _e, info) => console.log(info?.source, value);
+
+
+
+  useEffect(()=>{
+    if(!auth&&auth.token){
+      route("/")
+    }
+
+  },[]) 
+
+
+
+
+
+
   return (
     <RenterLayout>
-      <Search placeholder="input search text" onSearch={onSearch} enterButton />
+      <Search style={{width:"500px",marginLeft:"230px"}} placeholder="input search text" onSearch={onSearch} enterButton />
       <section className="py-14">
             <div className="max-w-screen-xl mx-auto px-4 md:px-8">
                 <div className="mt-12">

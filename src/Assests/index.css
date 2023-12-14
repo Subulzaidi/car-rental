@@ -7,48 +7,6 @@ body {
     color: #f6f1ec;
 }
 
-.ant-layout-header {
-    padding: 10px !important;
-    padding-left: -10px !important;
-}
-
-.logo {
-    background: transparent;
-    width: 200px;
-    height: 60px;
-}
-
-.logo2 {
-    background: transparent;
-    width: 250px;
-    height: 90px;
-}
-
-
-.ant-form {
-    /* padding-left: 100px; */
-    width: 400px;
-    /* padding-top: 250px; */
-}
-.bread-text {
-    color: #f83030 !important;
-  }
-
-.ant-input-search{
-    display: flex;
-    justify-content: center  !important;
-  }
-  
-.bread-text-active {
-    color: #ffffff !important;
-    display: inline-block !important;
-    justify-content: center;
-    /* font-weight: 400; */
-  }
-.ant-breadcrumb-separator{
-    color: white !important;
-  }
-
 .reg {
     color: rgba(55, 52, 50, 0.699);
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -58,20 +16,94 @@ body {
     font-weight: bolder;
 }
 
+/* mainPage Logo */
+.logo {
+    background: transparent;
+    width: 200px;
+    height: 60px;
+}
 
-.ant-form-item-required {
-    color: white !important;
+/* login-logo */
+.logo2 {
+    background: transparent;
+    width: 250px;
+    height: 90px;
 }
 
 
-.login-form-forgot {
-    color: #fcfcff;
-}
-
+/* Layout */
 .ant-layout {
     height: 100vh;
     background: #000000;
 
+}
+.ant-layout-header {
+    background: rgba(0, 0, 0, 0) !important;
+    padding-right: 20px !important;
+    align-items: center !important;
+    justify-content: end !important;
+
+}
+.ant-modal-close-x{
+    color: white !important;
+}
+
+.ant-avatar{
+
+    justify-self: end !important;
+}
+
+.ant-layout-content{
+    height: 100% !important;
+    border-radius: 20px !important;
+    color: white !important;
+    padding: 10px;
+}
+.ant-layout-sider-children {
+    background: #000;
+}
+
+/* Input */
+.ant-input-search{
+    display: flex;
+    justify-content: center  !important;
+  }
+  .ant-input-group-addon {
+    color: #f6f1ec !important;
+}
+  
+  /* Breadcrumb */
+.bread-text-active {
+    color: #ffffff !important;
+    display: inline-block !important;
+    justify-content: center;
+    /* font-weight: 400; */
+  }
+.ant-breadcrumb-separator{
+    color: white !important;
+  }
+  .bread-text {
+    color: #f83030 !important;
+  }
+
+/* Form */
+.ant-form-item-required {
+    color: white !important;
+}
+
+.login-link {
+    color: hsl(26, 97%, 48%);
+}
+.login-link:hover {
+    color: #f6f1ec;
+}
+.login-form-forgot {
+    color: #fcfcff;
+}
+.ant-form {
+    /* padding-left: 100px; */
+    width: 400px;
+    /* padding-top: 250px; */
 }
 
 .login-form-forgot:hover {
@@ -82,13 +114,8 @@ body {
     margin-right: 50px;
 
 }
-.ant-layout-content{
-    height: 100% !important;
-    border-radius: 20px !important;
-    color: white !important;
-    padding: 10px;
-   
-}
+
+/* List */
 .ant-list-item{    
     color: #f6f1ec !important;
 }
@@ -99,24 +126,17 @@ body {
 .ant-list-item-main{
     color: white !important;
 }
+.ant-list-item-meta-description{
+    color: white !important;
+}
 
+/* button */
 .ant-btn {
     color: white !important;
     background: #ef6a04;
 }
 
-.login-link {
-    color: hsl(26, 97%, 48%);
-}
-
-.login-link:hover {
-    color: #f6f1ec;
-}
-
-.ant-layout-sider-children {
-    background: #000;
-}
-
+/* Menu */
 
 .ant-menu {
     background: #000;
@@ -126,32 +146,18 @@ body {
     background: hsl(26, 97%, 48%) !important;
 }
 
-.ant-layout-header {
-    background: rgba(0, 0, 0, 0) !important;
-    padding-right: 20px !important;
-}
 
+/* Modal */
 .ant-modal-content {
     background: rgb(55, 52, 50) !important
-}
-
-.ant-input-group-addon {
-    color: #f6f1ec !important;
-}
-.ant-list-item-meta-description{
-    color: white !important;
-}
-.ant-spin-container{
-    color: white !important;
 }
 .ant-modal-title{
     background: rgb(55, 52, 50) !important;
     color: white !important;
 }
-.ant-descriptions-title{
+
+
+.ant-spin-container{
     color: white !important;
-    background-color: #000 !important;
 }
-.ant-descriptions-view{
-    color:white !important;
-}
+

@@ -15,6 +15,7 @@ const Login = ({ open, setOpen }) => {
     try {
       setLoading(true);
       const { data } = await axios.post("/login", values);
+      console.log(values)
       if (data.error) {
         toast.error(data.error);
         console.log(data.error)
@@ -24,7 +25,7 @@ const Login = ({ open, setOpen }) => {
         localStorage.setItem("auth", JSON.stringify(data));
         toast.success("Sucessfully logged in");
         setLoading(false);
-        router("/");
+        router("/user");
       }
     } catch (error) {
       console.log(error);

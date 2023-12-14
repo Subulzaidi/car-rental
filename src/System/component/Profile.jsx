@@ -18,6 +18,7 @@ const Profile = ({ open, setOpen }) => {
         title="User Profile"
         centered
         open={open}
+        onCancel={()=>{setOpen(false)}}
         footer={null}
       >
         <form onSubmit={(e) => e.preventDefault()} className="space-y-5">

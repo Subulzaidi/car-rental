@@ -55,14 +55,16 @@ const RenterLayout = ({ children }) => {
           src={Logo}
           style={{ justifySelf: "center", height: "70px", width: "200px" }}
         />
+      
         <SideNavs/>
       </Sider>
       <Layout>
         <Header style={{
           display:"flex",
-          justifyContent:"end",
+      
           paddingLeft:"100px",
         }}>
+         
         <Dropdown menu={{ items }} >
             <Avatar
               role="button"
@@ -70,6 +72,7 @@ const RenterLayout = ({ children }) => {
                 background: "hsl(26, 97%, 48%)",
                 color: "white",
               }}
+              
             >
           <FaUser  style={{height:"30px"}} />
             </Avatar>
