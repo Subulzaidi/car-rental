@@ -1,108 +1,106 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import RenterLayout from "./components/RenterLayout";
 import Search from "antd/es/input/Search";
-import {  Button} from "antd";
+import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/Auth";
-
-const team = [
-  {
-      avatar: "https://static.designboom.com/wp-content/uploads/2016/12/lamborghini-aventador-S-designboom-600.jpg",
-      name: "Lamborgni",
-      title: "Mr XYZ",
-      desc: "Rs.60000/Day",
-    
-  },
-  {
-      avatar: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGNhcnN8ZW58MHx8MHx8fDA%3D",
-      name: "Mercedes",
-      title: "Mr John",
-      desc: "Rs.75000/Day",
-      
-  },
-  {
-      avatar: "https://images.unsplash.com/photo-1625231334168-35067f8853ed?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHx8",
-      name: "BMW",
-      title: "Mr. Elijah",
-      desc: "Rs.65000/hr",
-      
-  },
-  {
-      avatar: "https://images.unsplash.com/photo-1580414057403-c5f451f30e1c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bGFtYm9yZ2hpbml8ZW58MHx8MHx8fDA%3D",
-      name: "Lamborgni",
-      title: "Mr. John",
-      desc: "Rs.65000/Day",
-      
-  },  
-  {
-    avatar: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGNhcnN8ZW58MHx8MHx8fDA%3D",
-    name: "Mercedes",
-    title: "Mr John",
-    desc: "Rs.75000/Day",
-    
-},
-{
-  avatar: "https://static.designboom.com/wp-content/uploads/2016/12/lamborghini-aventador-S-designboom-600.jpg",
-  name: "Lamborgni",
-  title: "Mr XYZ",
-  desc: "Rs.60000/Day",
-
-},
-]
-
+import axios from "axios";
+import { CgDetailsMore } from "react-icons/cg";
+import BookNow from "./components/BookNow";
 
 const Renter = () => {
-    const [auth, setAuth] = useContext(AuthContext);
-    const route = useNavigate();
-  const onSearch = (value, _e, info) => console.log(info?.source, value);
+  const [auth] = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState([{}]);
+  const [filteredData, setFilteredData] = useState([]);
+  const route = useNavigate();
 
-
-
-  useEffect(()=>{
-    if(!auth&&auth.token){
-      route("/")
+  const getAllCar = async () => {
+    try {
+      const response = await axios.get("/carrentals");
+      if (response.status === 200) {
+        console.log("here are the cars", response.data);
+        setOpen(open);
+        setData(response.data);
+        setFilteredData(response.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-  },[]) 
-
-
-
-
-
+  useEffect(() => {
+    getAllCar();
+  }, [auth]);
+  const handleSearch = (value) => {
+    const searchText = value.toLowerCase();
+    const filteredCars = data.filter(
+      (car) =>
+        (car.availability =
+          "available" &&
+          (car.model.toLowerCase().includes(searchText) ||
+            car.make.toLowerCase().includes(searchText) ||
+            car.color.toLowerCase().includes(searchText)))
+    );
+    setFilteredData(filteredCars);
+    console.log(filteredCars);
+  };
 
   return (
     <RenterLayout>
-      <Search style={{width:"500px",marginLeft:"230px"}} placeholder="input search text" onSearch={onSearch} enterButton />
+      <div className="flex justify-center mb-8">
+        <Search
+          style={{ width: "500px" }}
+          placeholder="Input search text"
+          onSearch={handleSearch}
+          enterButton
+        />
+      </div>
       <section className="py-14">
-            <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-                <div className="mt-12">
-                    <ul className="grid gap-8 lg:grid-cols-2">
-                        {
-                            team.map((item, idx) => (
-                                <li key={idx} className="gap-8 sm:flex">
-                                    <div className="w-full h-full">
-                                        <img
-                                            src={item.avatar}
-                                            className="w-full h-full object-cover object-center shadow-md rounded-xl"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div className="mt-4 sm:mt-0">
-                                        <h4 className="text-lg text-white-700 font-semibold">{item.name}</h4>
-                                        <p className="text-indigo-600">{item.title}</p>
-                                        <p className="text-white-600 mt-2">{item.desc}</p>
-                                        <div className="mt-3 flex gap-2 text-gray-400">
-                                            <Button onClick={()=>{route("/user/rent")}}>Book Now</Button>
-                                            <Button>Details</Button>
-                                        </div>
-                                    </div>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                </div>
-            </div>
-        </section>
+        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+          <div className="mt-12">
+            <ul className="grid gap-8 lg:grid-cols-2">
+              {filteredData.map((item, idx) => (
+                <li key={idx} className="gap-8 sm:flex">
+                  <div
+                    className="w-full h-full"
+                    style={{
+                      borderRadius: "1rem",
+                    }}
+                  >
+                    <img
+                      src={item.image_url}
+                      alt=""
+                      className="w-full h-full object-cover object-center shadow-md rounded-xl"
+                    />
+                  </div>
+                  <div className="mt-4 sm:mt-0">
+                    <h4 className="text-lg text-white-700 font-semibold">
+                      {item.model}
+                    </h4>
+                    <p className="text-indigo-600">{item.make}</p>
+                    <p className="text-indigo-600">{item.color}</p>
+                    <p className="text-white-600 mt-2">
+                      ${item.daily_rate} /day
+                    </p>
+                    <div className="mt-3 flex gap-2 text-gray-400">
+                      <BookNow open={open} setOpen={setOpen} />
+                      <Button
+                        icon={<CgDetailsMore />}
+                        onClick={() => {
+                          route(`/user/details/${item.id}`);
+                        }}
+                      >
+                        Details
+                      </Button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
     </RenterLayout>
   );
 };

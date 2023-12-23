@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Logo from "./Logo.png";
 import { BsPersonFillGear } from "react-icons/bs";
 import { Avatar, Dropdown, Layout, Menu, theme } from "antd";
@@ -33,10 +33,17 @@ const RenterLayout = ({ children }) => {
         localStorage.clear();
         setAuth({});
         route("/");
+       
       },
     },
   ];
- 
+  useEffect(()=>{
+    
+    if(!auth&&auth.token){
+      route("/")
+    }
+
+  },[]) 
 
   return (
     <Layout>
@@ -64,7 +71,7 @@ const RenterLayout = ({ children }) => {
       
           paddingLeft:"100px",
         }}>
-         
+ 
         <Dropdown menu={{ items }} >
             <Avatar
               role="button"
@@ -73,8 +80,9 @@ const RenterLayout = ({ children }) => {
                 color: "white",
               }}
               
-            >
-          <FaUser  style={{height:"30px"}} />
+            >   
+  
+       <FaUser  style={{height:"30px"}} />
             </Avatar>
           </Dropdown>
         </Header>

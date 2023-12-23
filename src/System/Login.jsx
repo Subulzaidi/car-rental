@@ -12,6 +12,7 @@ const Login = ({ open, setOpen }) => {
   const [auth, setAuth] = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const onFinish = async (values) => {
+    
     try {
       setLoading(true);
       const { data } = await axios.post("/login", values);
@@ -22,6 +23,7 @@ const Login = ({ open, setOpen }) => {
         setLoading(false);
       } else {
         setAuth({ user: data.user, token: data.token });
+        console.log([auth.token])
         localStorage.setItem("auth", JSON.stringify(data));
         toast.success("Sucessfully logged in");
         setLoading(false);

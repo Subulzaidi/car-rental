@@ -4,7 +4,7 @@ import axios from "axios";
 // Create AuthContext
 export const AuthContext = createContext();
 
-axios.defaults.baseURL = "http://localhost:5001/api";
+axios.defaults.baseURL = "http://localhost:9000/api";
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({

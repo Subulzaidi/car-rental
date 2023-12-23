@@ -3,7 +3,9 @@ import Renter from ".";
 import RenterLayout from "./components/RenterLayout";
 
 const History = () => {
-  return <RenterLayout></RenterLayout>;
+  return <RenterLayout>
+    <img></img>
+  </RenterLayout>;
 };
 
 export default History;
