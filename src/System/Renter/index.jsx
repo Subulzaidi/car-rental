@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/Auth";
 import axios from "axios";
 import { CgDetailsMore } from "react-icons/cg";
-import BookNow from "./components/BookNow";
+import { MdOutlineNotInterested } from "react-icons/md";
 
 const Renter = () => {
   const [auth] = useContext(AuthContext);
@@ -19,6 +19,7 @@ const Renter = () => {
     try {
       const response = await axios.get("/carrentals");
       if (response.status === 200) {
+        console.log(auth);
         console.log("here are the cars", response.data);
         setOpen(open);
         setData(response.data);
@@ -59,7 +60,7 @@ const Renter = () => {
       <section className="py-14">
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
           <div className="mt-12">
-            <ul className="grid gap-8 lg:grid-cols-2">
+            <ul className="grid gap-8 lg:grid-cols-2 ">
               {filteredData.map((item, idx) => (
                 <li key={idx} className="gap-8 sm:flex">
                   <div
@@ -71,7 +72,7 @@ const Renter = () => {
                     <img
                       src={item.image_url}
                       alt=""
-                      className="w-full h-full object-cover object-center shadow-md rounded-xl"
+                      className="w-full h-full object-cover object-center shadow-md rounded-xl bs1"
                     />
                   </div>
                   <div className="mt-4 sm:mt-0">
@@ -84,15 +85,21 @@ const Renter = () => {
                       ${item.daily_rate} /day
                     </p>
                     <div className="mt-3 flex gap-2 text-gray-400">
-                      <BookNow open={open} setOpen={setOpen} />
-                      <Button
-                        icon={<CgDetailsMore />}
-                        onClick={() => {
-                          route(`/user/details/${item.id}`);
-                        }}
-                      >
-                        Details
-                      </Button>
+                      {item.availability === 1 && (
+                        <Button
+                          icon={<CgDetailsMore />}
+                          onClick={() => {
+                            route(`/user/details/${item.id}`);
+                          }}
+                        >
+                          Details
+                        </Button>
+                      )}
+                      {item.availability === 0 && (
+                        <Button icon={<MdOutlineNotInterested />} disabled>
+                          Rented!!
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </li>

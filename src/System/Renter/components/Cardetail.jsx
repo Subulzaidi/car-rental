@@ -11,7 +11,7 @@ const resCol = {
   sm: 2,
   md: 3,
   lg: 3,
-  xl: 4,
+  xl: 3,
   xxl: 4,
 };
 const Cardetail = () => {
@@ -39,7 +39,7 @@ const Cardetail = () => {
     <RenterLayout>
       <section className="py-14">
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-          <div className="mt-12">
+          <div className="mt-4">
             <div
               className="w-50 h-50"
               style={{

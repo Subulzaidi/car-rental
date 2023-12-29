@@ -7,10 +7,11 @@ import { AuthProvider } from "./context/Auth";
 
 import "./Assests/index.css";
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <AuthProvider>    
+    <AuthProvider>
       <Toaster position="top-right" />
       <App />
     </AuthProvider>

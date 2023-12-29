@@ -4,6 +4,7 @@ import Renter from "./System/Renter/index";
 import History from "./System/Renter/History";
 import BookNow from "./System/Renter/components/BookNow";
 import Cardetail from "./System/Renter/components/Cardetail";
+import Transcript from "./System/Renter/components/Transcript";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/user/history" element=<History /> />
       {/* car details */}
       <Route path="/user/details/:id" element=<Cardetail /> />
+      <Route path="/user/booking-transcript" element=<Transcript /> />
     </Routes>
   );
 }
