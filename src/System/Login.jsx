@@ -12,18 +12,17 @@ const Login = ({ open, setOpen }) => {
   const [auth, setAuth] = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const onFinish = async (values) => {
-    
     try {
       setLoading(true);
       const { data } = await axios.post("/login", values);
-      console.log(values)
+      console.log(values);
       if (data.error) {
         toast.error(data.error);
-        console.log(data.error)
+        console.log(data.error);
         setLoading(false);
       } else {
         setAuth({ user: data.user, token: data.token });
-        console.log([auth.token])
+        console.log([auth.token]);
         localStorage.setItem("auth", JSON.stringify(data));
         toast.success("Sucessfully logged in");
         setLoading(false);

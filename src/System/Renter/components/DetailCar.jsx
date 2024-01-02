@@ -14,7 +14,7 @@ const resCol = {
   xl: 3,
   xxl: 4,
 };
-const Cardetail = () => {
+const DetailCar = () => {
   const [auth, setAuth] = useContext(AuthContext);
   const [data, setData] = useState([{}]);
   const [open, setOpen] = useState(false);
@@ -87,4 +87,4 @@ const Cardetail = () => {
   );
 };
 
-export default Cardetail;
+export default DetailCar;

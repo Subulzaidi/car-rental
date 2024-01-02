@@ -37,11 +37,10 @@ const Renter = () => {
     const searchText = value.toLowerCase();
     const filteredCars = data.filter(
       (car) =>
-        (car.availability =
-          "available" &&
-          (car.model.toLowerCase().includes(searchText) ||
-            car.make.toLowerCase().includes(searchText) ||
-            car.color.toLowerCase().includes(searchText)))
+        car.availability == 1 &&
+        (car.model.toLowerCase().includes(searchText) ||
+          car.make.toLowerCase().includes(searchText) ||
+          car.color.toLowerCase().includes(searchText))
     );
     setFilteredData(filteredCars);
     console.log(filteredCars);

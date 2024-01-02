@@ -2,9 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./System";
 import Renter from "./System/Renter/index";
 import History from "./System/Renter/History";
-import BookNow from "./System/Renter/components/BookNow";
-import Cardetail from "./System/Renter/components/Cardetail";
 import Transcript from "./System/Renter/components/Transcript";
+import DetailCar from "./System/Renter/components/DetailCar";
 
 function App() {
   return (
@@ -15,8 +14,8 @@ function App() {
       <Route path="/user" element=<Renter /> />
       <Route path="/user/history" element=<History /> />
       {/* car details */}
-      <Route path="/user/details/:id" element=<Cardetail /> />
-      <Route path="/user/booking-transcript" element=<Transcript /> />
+      <Route path="/user/details/:id" element=<DetailCar /> />
+      <Route path="/user/booking-transcript/:id" element=<Transcript /> />
     </Routes>
   );
 }

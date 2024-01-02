@@ -5,10 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../context/Auth";
 import axios from "axios";
 import moment from "moment";
-import { loadStripe } from "@stripe/stripe-js";
-import { PaymentElement, elements } from "@stripe/react-stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
 import toast from "react-hot-toast";
+import Transcript from "./Transcript";
 
 const residences = [
   {
@@ -117,14 +115,13 @@ const residences = [
 
 const BookNow = ({ open, setOpen }) => {
   const [auth] = useContext(AuthContext);
-  console.log(auth);
-  const [email, setEmail] = useState(auth.user.email);
   const [days, setDays] = useState(0);
   const { id } = useParams();
+  const route = useNavigate();
 
   const [formData, setFormData] = useState({
     car_id: Number(id),
-    email: email,
+    email: "",
     cnic: "",
     licenseNumber: "",
     startDate: "",
@@ -133,11 +130,8 @@ const BookNow = ({ open, setOpen }) => {
     total_days: days,
   });
 
-  const route = useNavigate();
-  useEffect(() => {
-    // This useEffect will run whenever days state is updated
-    setEmail(auth.user.email);
-  }, [auth]);
+  // State to store booking details
+  const [bookingDetails, setBookingDetails] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -154,16 +148,15 @@ const BookNow = ({ open, setOpen }) => {
     const startDate = moment(formData.startDate);
     const endDate = moment(formData.endDate);
 
-    // Check if both startDate and endDate are valid dates
     if (startDate.isValid() && endDate.isValid()) {
       const days = endDate.diff(startDate, "days");
-      setDays(days); // Update the state if needed
+      setDays(days);
 
       try {
         console.log(formData);
         const data = await axios.post("/rentcar", {
           car_ID: formData.car_id,
-          email: email,
+          email: formData.email,
           end_date: moment(formData.endDate).format("YYYY-MM-DD"),
           Start_date: moment(formData.startDate).format("YYYY-MM-DD"),
           address: formData.address,
@@ -173,63 +166,32 @@ const BookNow = ({ open, setOpen }) => {
         });
 
         if (data.status === 200) {
-          // route("/user/booking-transcript");
-          makePayment();
-          console.log("Form data submitted:", formData);
+          console.log(data);
+          // Update the state with booking details
+          setBookingDetails({
+            car_ID: formData.car_id,
+            email: formData.email,
+            end_date: moment(formData.endDate).format("YYYY-MM-DD"),
+            Start_date: moment(formData.startDate).format("YYYY-MM-DD"),
+            address: formData.address,
+            Cnic: formData.cnic,
+            LicenseNO: formData.licenseNumber,
+            total_days: days,
+          });
+          route(`/user/booking-transcript/${id}`);
         }
       } catch (err) {
         console.log(err);
         toast.error("An error occurred while submitting the form.");
       }
+    } else {
+      toast.error("Invalid date range. Please check your dates.");
     }
   };
 
   const handleCancel = () => {
     setOpen(false);
     console.log(days);
-  };
-
-  const makePayment = async () => {
-    try {
-      const stripe = await loadStripe(
-        "pk_test_51OSOx7SFBXwGHscxGmqjo3gRON1QEAb49FfCJEMtKVNomQnt5ng3tFqN8mLEDpMUtiRMtCXAxgU3Spna4xPQwlYR00ngw58lHY"
-      );
-
-      const response = await axios.post("/payment", {
-        car_ID: formData.car_id,
-        email: email,
-        end_date: moment(formData.endDate).format("YYYY-MM-DD"),
-        Start_date: moment(formData.startDate).format("YYYY-MM-DD"),
-        address: formData.address,
-        Cnic: formData.cnic,
-        LicenseNO: formData.licenseNumber,
-        total_days: days,
-      });
-
-      const clientSecret = response.data.clientSecret;
-      console.log(response.data.clientSecret);
-      if (clientSecret) {
-        const result = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(PaymentElement),
-          },
-        });
-        if (result.error) {
-          console.error("Error in confirmCardPayment:", result.error);
-          // Handle the error appropriately, e.g., show an error message
-        } else {
-          // Payment succeeded, you can redirect or show a success message
-          console.log("Payment succeeded:", result.paymentIntent);
-          toast.success("Payment succeeded!");
-        }
-      } else {
-        console.error("Client secret is missing in the response.");
-        // Handle the error appropriately, e.g., show an error message
-      }
-    } catch (error) {
-      console.error("Error in makePayment:", error);
-      // Handle the error appropriately, e.g., show an error message
-    }
   };
 
   return (
@@ -261,8 +223,23 @@ const BookNow = ({ open, setOpen }) => {
               gridRowGap: "10px",
             }}
           >
-            {/* Renter Information */}
-
+            <div>
+              <label>Email:</label>
+              <input
+                type="email"
+                name="email"
+                style={{
+                  padding: "8px",
+                  border: "1px solid #ccc",
+                  color: "black",
+                  borderRadius: "5px",
+                  width: "100%",
+                }}
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
             <div>
               <label>Pickup Date:</label>
               <input
@@ -277,7 +254,7 @@ const BookNow = ({ open, setOpen }) => {
                 }}
                 value={formData.startDate}
                 onChange={handleInputChange}
-                min={moment().format("YYYY-MM-DD")} // Set min to the current date
+                min={moment().format("YYYY-MM-DD")}
                 required
               />
             </div>
@@ -295,7 +272,7 @@ const BookNow = ({ open, setOpen }) => {
                 }}
                 value={formData.endDate}
                 onChange={handleInputChange}
-                min={moment().format("YYYY-MM-DD")} // Set min to the current date
+                min={moment().format("YYYY-MM-DD")}
                 required
               />
             </div>
@@ -335,7 +312,6 @@ const BookNow = ({ open, setOpen }) => {
               />
             </div>
 
-            {/* Rental Period */}
             <div>
               <label>Address:</label>
               <Cascader
@@ -344,8 +320,6 @@ const BookNow = ({ open, setOpen }) => {
                   width: "100%",
                   padding: "8px",
                   background: "white",
-                  // border: "1px solid #ccc",
-                  // borderRadius: "5px",
                 }}
                 placeholder="Select Address"
                 onChange={(value) => {
@@ -357,7 +331,7 @@ const BookNow = ({ open, setOpen }) => {
               />
             </div>
             <button
-              className="ant-btn "
+              className="ant-btn"
               style={{ width: "100px", height: "35px", borderRadius: "5px" }}
               type="submit"
             >
@@ -366,8 +340,8 @@ const BookNow = ({ open, setOpen }) => {
           </form>
         </div>
       </Modal>
+      <Transcript id={formData.car_id} />
     </>
   );
 };
-
 export default BookNow;
