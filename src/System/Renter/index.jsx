@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import RenterLayout from "./components/RenterLayout";
+
 import Search from "antd/es/input/Search";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/Auth";
+
 import axios from "axios";
 import { CgDetailsMore } from "react-icons/cg";
 import { MdOutlineNotInterested } from "react-icons/md";
+import RenterLayout from "./components/RenterLayout";
+import { AuthContext } from "../../context/Auth";
 
 const Renter = () => {
   const [auth] = useContext(AuthContext);
