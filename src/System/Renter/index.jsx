@@ -33,8 +33,12 @@ const Renter = () => {
   };
 
   useEffect(() => {
-    getAllCar();
-  }, [auth]);
+    if (auth && auth?.token) {
+      getAllCar();
+    } else {
+      route("/");
+    }
+  }, [auth && auth?.token]);
   const handleSearch = (value) => {
     const searchText = value.toLowerCase();
     const filteredCars = data.filter(

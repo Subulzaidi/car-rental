@@ -8,7 +8,7 @@ const History = () => {
   const [auth] = useContext(AuthContext);
   const [recordDetails, setRecordDetails] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("subul@gmail.com");
+  const [email, setEmail] = useState(auth?.user?.Email);
 
   const fetchRecordDetails = async () => {
     setLoading(true);

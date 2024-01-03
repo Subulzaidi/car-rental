@@ -5,8 +5,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import mainPage from "../Assests/images/Homepg.png";
 import { UserAddOutlined, UserOutlined } from "@ant-design/icons";
-import Login from "./Login";
+
 import Signp from "./Signp";
+import LoginModal from "./Login";
 
 const boxStyle = {
   width: "85%",
@@ -44,7 +45,7 @@ const Home = () => {
             <Flex justify="end" gap="small" align="center" wrap="wrap">
               {/* <Button
                */}
-              <Login setOpen={setopen} open={open} />
+              <LoginModal setOpen={setopen} open={open} />
               <Signp setOpen={setopen2} open={open2} />
             </Flex>
           </Flex>

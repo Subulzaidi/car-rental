@@ -77,7 +77,7 @@ const DetailCar = () => {
                   justifySelf: "start",
                 }}
               />
-            </div>
+            </div>  
             <div
               className="col-md-6"
               style={{ background: "rgb(87, 85, 85)", padding: "15px" }}
