@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from ".././context/Auth";
+import { AuthContext } from "../context/Auth";
 import { Button, Input, Modal, Select } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -15,7 +15,7 @@ const Signup = ({ open, setOpen }) => {
     firstName: "",
     lastName: "",
     email: "",
-    phoneNo: "",
+    Phone: "",
     address: "",
     dateOfBirth: "",
     driverLicenseNumber: "",
@@ -41,12 +41,12 @@ const Signup = ({ open, setOpen }) => {
     e.preventDefault();
 
     if (formData.password !== formData.password2) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
     try {
-      const response = await axios.post("/signup", formData, auth);
+      const response = await axios.post("/signup", formData);
 
       if (response.status === 200) {
         setAuth(response.data); // Update auth state with the received data
@@ -149,13 +149,13 @@ const Signup = ({ open, setOpen }) => {
               </div>
               <div className="col-md-6">
                 <div className="form-group py-2">
-                  <label htmlFor="phoneNo">Phone No</label>
+                  <label htmlFor="Phone">Phone No</label>
                   <Input
                     type="text"
                     style={{ border: "none" }}
                     placeholder="555-123-4567"
-                    name="phoneNo"
-                    value={formData.phoneNo}
+                    name="Phone"
+                    value={formData.Phone}
                     onChange={handleChange}
                   />
                 </div>
